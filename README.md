@@ -218,6 +218,9 @@ Comprovam el desplagament.
 sudo kubectl get pods --namespace=practica2inst3v3
 ```
 
+## Pàctica 4: Practica final
+
+Per poder executar el kind des de qualsevol lloc
 
 ## Dubtes
 * Com és fa per llançar un conjunt de replicasets o pods. Es pot fer amb un sol yaml?
