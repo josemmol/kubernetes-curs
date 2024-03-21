@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: servidor-cache-rs-v2
+  namespace: practica2inst3v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cacheapp
+  template:
+    metadata:
+      labels:
+        app: cacheapp
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - cacheapp
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: cache
+        image: redis
+        ports:
+        - containerPort: 6379
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
+          periodSeconds: 10
+  
