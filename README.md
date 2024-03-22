@@ -2,9 +2,9 @@
 
 ## Introducció
 
-Aquest és un curs d'introducció a kubernetes.
+Aquest és un curs d’introducció a kubernetes.
 
-## Pàctica 1: Instal·lar un cluster de kubernetes
+## Pràctica 1: Instal·lar un clúster de kubernetes
 
 Per fer la instal·lació del clúster de kubernetes s'ha seguit el següent enllaç:
 
@@ -14,7 +14,7 @@ Per definir el clúster s'ha utilitzat el següent fitxer:
 
 [kind-config.yaml](/kind-config.yaml)
 
-## Pàctica 2: Creació i desplagament de pods (NO EVALUABLE)
+## Pràctica 2: Creació i desplegament de pods (NO EVALUABLE)
 
 Enuciat al classroom
 https://classroom.google.com/u/1/c/NjAxMzY1MjUzNTU5/a/NjU0OTQwMzk4Mzk2/details
@@ -38,20 +38,20 @@ sudo kubectl get node --show-labels
 
 Afegir el label size als nodes del clúster:
 ```
-sudo kubectl label nodes local-cluster-worker size=Large
+kubsudo kubectl label nodes local-cluster-worker size=Large
 sudo kubectl label nodes local-cluster-worker2 size=Medium
 sudo kubectl label nodes local-cluster-worker3 size=Small
 ```
 
 ### Segona passa: Instal·lació 1: Desplegar un pod amb vàries etiquetes que tingui dos contenidors un web i un cache.
 
-Addicionalment, té com a requisits un mínim de 100 MB de ram. Ha de desplegar únicament en el worker3. Ha de tenir configurat una estratègia de control perquè es reiniciï en cas de problemes. Ha de fer-se en un namespace amb nom practica2inst1.
+Addicionalment, té com a requisits un mínim de 100 MB de ram. Ha de desplegar només en el worker3. Ha de tenir configurat una estratègia de control perquè es reiniciï en cas de problemes. Ha de fer-se en un namespace amb nom practica2inst1.
 
 Aquest seria el fitxer yml de configuració del pod **inst1-pod**:
 
 [pr2inst1.yml](/pr2inst1.yml)
 
-Abans de desplegar el pod s'ha de crear el namespace **practica2inst1**.
+Abans de desplegar el pod s’ha de crear el namespace **practica2inst1**.
 ```
 sudo kubectl create namespace practica2inst1
 ```
@@ -81,7 +81,7 @@ sudo kubectl delete pods --all --namespace=practica2inst1
 ```
 
 
-### Tercera Passa: Instal·lació 2: Desplegament d'una aplicació web amb 2 repliques del mateix servidor web. 
+### Tercera Passa: Instal·lació 2: Desplegament d’una aplicació web amb 2 rèpliques del mateix servidor web. 
 
 
 Addicionalment, ha de desplegar-se en els nodes de grandària Medium o Large i han de tenir uns healthchecks que controlin el correcte funcionament. Els pods no poden executar-se en el mateix node. Una vegada estigui funcionant afegir una rèplica més i mostrar l'estat del desplegament. Ha de fer-se en un namespace amb nom practica2inst2.
@@ -100,7 +100,7 @@ Per desplegar el replicaSet:
 sudo kubectl apply -f pr2inst2.yml
 ```
 
-Comprovar que el replicase s'ha desplegat*
+Comprovar que el replicaset s'ha desplegat*
 ```
 sudo kubectl get pods --namespace=practica2inst2
 ```
@@ -114,7 +114,7 @@ Mostrar la descripció del pods al namespace **practica2inst1**
 sudo kubectl describe pod --namespace=practica2inst2
 ```
 
-Afegir una rèplica  al replicase **servidor-web-rs**
+Afegir una rèplica al replicaset **servidor-web-rs**
 ```
 sudo kubectl scale replicaset servidor-web-rs --replicas=3 --namespace=practica2inst2
 ```
@@ -152,7 +152,7 @@ Cream un replicaset amb dos contenidors diferents.
 
 [pr2inst3v1rs1.yml](/pr2inst3v1rs1.yml)
 
-Deplegar el replicaset
+Desplegar el replicaset
 ```
 sudo kubectl apply -f pr2inst3v1rs1.yml
 ```
@@ -213,14 +213,27 @@ sudo kubectl apply -f pr2inst3v3rs1.yml
 sudo kubectl apply -f pr2inst3v3rs2.yml
 ```
 
-Comprovam el desplagament.
+Comprovam el desplegament.
 ```
 sudo kubectl get pods --namespace=practica2inst3v3
 ```
 
 ## Pàctica 4: Practica final
 
-Per poder executar el kind des de qualsevol lloc
+Per poder executar el kind des de qualsevol lloc hem de posar el kind al path per això ho fem amb la següent instrucció.
+```
+export PATH="/home/jmmol/go/bin/:$PATH"
+```
+Una vegada fet això cream el directori de treball per a la pràctica final
+```
+mkdir practicafinal
+cd practicafinal
+```
+
+Creació del clúster
+```
+kind create cluster --name madronal --config kind-config.yaml
+```
 
 ## Dubtes
 * Com és fa per llançar un conjunt de replicasets o pods. Es pot fer amb un sol yaml?
