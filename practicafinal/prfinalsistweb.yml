@@ -27,7 +27,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: web
-        image: nginx
+        image: jlaredo/formacion-web-server-amd64 
         ports:
         - containerPort: 80
         livenessProbe:
