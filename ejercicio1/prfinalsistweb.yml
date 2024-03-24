@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sist-web
+  namespace: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - web
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: web
+        image: jlaredo/formacion-web-server-amd64 
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: password
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgresql-db-config
+              key: DB_USER
+        - name: DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: postgresql-db-config
+              key: DB_HOSTNAME
+        livenessProbe:
+          httpGet:
+              path: /
+              port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+              path: /
+              port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "64M"
+            cpu: 100m
+          limits:
+            memory: "128M"
+            cpu: 200m            
+      nodeSelector:
+        tier: front

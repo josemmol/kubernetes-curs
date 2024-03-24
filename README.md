@@ -219,7 +219,7 @@ sudo kubectl get pods --namespace=practica2inst3v3
 ```
 
 ## Pàctica 4: Practica final
-
+### Ejercicio 1
 Per poder executar el kind des de qualsevol lloc hem de posar el kind al path per això ho fem amb la següent instrucció.
 ```
 export PATH="/home/jmmol/go/bin/:$PATH"
@@ -232,8 +232,57 @@ cd practicafinal
 
 Creació del clúster
 ```
-kind create cluster --name madronal --config kind-config.yaml
+kind create cluster --name madronal --config kind-config.y
 ```
+
+Destruir el clúster
+```
+kind delete cluster --name madronal
+```
+
+Accedir a la consola d'un pod
+```
+kubectl exec --stdin --tty -n backend sist-postgresql-6877b76c85-kjzqm -- /bin/bash
+```
+### Ejercicio 2
+Instal·lació Helm
+
+S'han seguit les instruccions del següent enllaç:
+
+https://helm.sh/docs/intro/install/
+
+```
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+```
+
+Afegir repositori bitnami:
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+Comprovar que s'ha afegit el repositori
+```
+helm repo list
+```
+
+Descarregar el values 
+```
+helm show values bitnami/nginx > values.yaml
+```
+
+Actualitzar el chart als valors del fitxer values.yalm
+```
+
+```
+
+
+
+
+
 
 ## Dubtes
 * Com és fa per llançar un conjunt de replicasets o pods. Es pot fer amb un sol yaml?

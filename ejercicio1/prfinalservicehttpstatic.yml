@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-static-service
+  namespace: frontend
+spec:
+  selector:
+    app: web-static    
+  ports:
+  - protocol: TCP
+    port: 80       
+    targetPort: 80  

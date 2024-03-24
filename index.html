@@ -1,0 +1,13 @@
+DB_HOSTNAME postgresql-service<br/>DB_USER formacion<br/>DB_PASSWORD Kubernetes
+<br/>host=postgresql-service dbname=postgres port=5432 user=formacion password=Kubernetes
+<br />
+<b>Warning</b>:  pg_connect(): Unable to connect to PostgreSQL server: could not translate host name &quot;postgresql-service&quot; to address: Temporary failure in name resolution in <b>/var/www/html/index.php</b> on line <b>15</b><br />
+Connection attempt failed.<br />
+<b>Fatal error</b>:  Uncaught TypeError: pg_close(): Argument #1 ($connection) must be of type ?PgSql\Connection, false given in /var/www/html/index.php:27
+Stack trace:
+#0 /var/www/html/index.php(27): pg_close(false)
+#1 {main}
+  thrown in <b>/var/www/html/index.php</b> on line <b>27</b><br />
+
+  10.244.3.3
+  10.244.2.3

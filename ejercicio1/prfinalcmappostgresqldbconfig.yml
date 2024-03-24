@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-db-config
+  namespace: frontend
+data:
+  DB_USER: "formacion"
+  DB_HOSTNAME: "postgresql-service.backend"

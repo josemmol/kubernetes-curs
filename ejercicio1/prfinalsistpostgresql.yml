@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sist-postgresql
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: jlaredo/formacion-postgresql-amd64 
+#        image: nginx 
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgresql-data
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "128M"
+            cpu: 200m
+          limits:
+            memory: "256M"
+            cpu: 500m
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - -e
+            #- exec pg_isready -U "formacion" -h 127.0.0.1 -p 5432
+            - psql -h localhost -U formacion -d postgres -c "SELECT 1"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - -e
+            #- exec pg_isready -U "formacion" -h 127.0.0.1 -p 5432
+            - psql -h localhost -U formacion -d postgres -c "SELECT 1"
+            # - PGPASSWORD=Kubernetes
+            # - psql -h localhost -U formacion -d DB_HOSTNAME -c "SELECT 1"
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      nodeSelector:
+        tier: back
+      volumes:
+      - name: postgresql-data
+        persistentVolumeClaim:
+          claimName: postgresql-pvc
